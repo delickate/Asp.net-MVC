@@ -123,4 +123,4 @@ Feel free to adjust the repository URL, connection string, and other details spe
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo-url
+git clone https://github.com/delickate/Asp.net-MVC.git
