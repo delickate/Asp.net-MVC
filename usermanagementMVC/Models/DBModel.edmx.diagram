@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ecb4fe95f28447f895dae312b147f176" Name="Diagram1">
+        <EntityTypeShape EntityType="sani_usermanagementModel.module" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.right" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.role" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.roles_modules_permissions" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.roles_modules_permissions_rights" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.user" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="sani_usermanagementModel.users_roles" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_module" ManuallyRouted="false" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_rights" ManuallyRouted="false" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_role" ManuallyRouted="false" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_user_role" ManuallyRouted="false" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_permissions" ManuallyRouted="false" />
+        <AssociationConnector Association="sani_usermanagementModel.fk_user" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

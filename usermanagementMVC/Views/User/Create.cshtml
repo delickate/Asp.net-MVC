@@ -1,0 +1,47 @@
+﻿@model usermanagementMVC.Models.UserViewModel
+@{
+    ViewBag.Title = "Create User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Create User</h2>
+@using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label>Email</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Name</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Phone</label>
+        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Role</label>
+        @Html.DropDownListFor(m => m.RoleId, Model.Roles, "Select Role", new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Picture</label>
+        <input type="file" name="Picture" class="form-control" />
+    </div>
+    <div>
+        <label>Is Default</label>
+        @Html.CheckBoxFor(m => m.IsDefault)
+    </div>
+
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <p style="color:red;">@ViewBag.ErrorMessage</p>
+}

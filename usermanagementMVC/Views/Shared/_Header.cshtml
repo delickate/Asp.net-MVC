@@ -1,0 +1,27 @@
+﻿@if (Session["UserId"] != null)
+{ 
+    <div class="header">
+        <nav>
+            <ul>
+                @if (ViewBag.Modules != null)
+                {
+                    foreach (var module in ViewBag.Modules)
+                    {
+                        <li>
+                            <a href="@module.Url">@module.Name</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>No modules available</li>
+                }
+            </ul>
+        </nav>
+
+        <p><a href="@Url.Action("Logout", "Login")">Logout</a></p>
+    </div>
+
+}
+
+

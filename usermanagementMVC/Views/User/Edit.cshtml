@@ -1,0 +1,47 @@
+﻿@model usermanagementMVC.Models.user
+@{
+    ViewBag.Title = "Edit User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Edit User</h2>
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.id)
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        @Html.TextBoxFor(model => model.email, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        @Html.TextBoxFor(model => model.name, new { @class = "form-control", @placeholder = "Enter name" })
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Phone</label>
+        @Html.TextBoxFor(model => model.phone, new { @class = "form-control", @placeholder = "Enter phone number" })
+    </div>
+
+    <div class="form-group">
+        <label for="picture">Profile Picture</label>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.picture))
+            {
+                <img src="~/Uploads/@Model.picture" alt="Profile Picture" style="width:100px;height:100px;" />
+                <br />
+            }
+            <input type="file" name="picture" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="role">Role</label>
+        @Html.DropDownList("RoleId", ViewBag.Roles as SelectList, "Select Role", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save Changes" class="btn btn-success" />
+        <a href="@Url.Action("Index", "User")" class="btn btn-secondary">Cancel</a>
+    </div>
+}

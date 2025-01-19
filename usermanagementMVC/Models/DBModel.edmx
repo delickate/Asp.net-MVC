@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="sani_usermanagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="modules">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parent_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="url" Type="nvarchar" MaxLength="100" />
+          <Property Name="slug" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+          <Property Name="sortid" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="rights">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles_modules_permissions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="module_id" Type="int" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles_modules_permissions_rights">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roles_modules_permissions_id" Type="int" Nullable="false" />
+          <Property Name="rights_id" Type="int" Nullable="false" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="picture" Type="nvarchar" MaxLength="255" />
+          <Property Name="gender_id" Type="int" />
+          <Property Name="education_id" Type="int" />
+          <Property Name="interests" Type="nvarchar(max)" />
+          <Property Name="aboutme" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_module">
+          <End Role="modules" Type="Self.modules" Multiplicity="1" />
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_permissions">
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="1" />
+          <End Role="roles_modules_permissions_rights" Type="Self.roles_modules_permissions_rights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles_modules_permissions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions_rights">
+              <PropertyRef Name="roles_modules_permissions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rights">
+          <End Role="rights" Type="Self.rights" Multiplicity="1" />
+          <End Role="roles_modules_permissions_rights" Type="Self.roles_modules_permissions_rights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rights">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions_rights">
+              <PropertyRef Name="rights_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_role">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user">
+          <End Role="users" Type="Self.users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_roles">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user_role">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_roles">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sani_usermanagementModelStoreContainer">
+          <EntitySet Name="modules" EntityType="Self.modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rights" EntityType="Self.rights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles_modules_permissions" EntityType="Self.roles_modules_permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles_modules_permissions_rights" EntityType="Self.roles_modules_permissions_rights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users_roles" EntityType="Self.users_roles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_module" Association="Self.fk_module">
+            <End Role="modules" EntitySet="modules" />
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_permissions" Association="Self.fk_permissions">
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+            <End Role="roles_modules_permissions_rights" EntitySet="roles_modules_permissions_rights" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rights" Association="Self.fk_rights">
+            <End Role="rights" EntitySet="rights" />
+            <End Role="roles_modules_permissions_rights" EntitySet="roles_modules_permissions_rights" />
+          </AssociationSet>
+          <AssociationSet Name="fk_role" Association="Self.fk_role">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user" Association="Self.fk_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="users_roles" EntitySet="users_roles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user_role" Association="Self.fk_user_role">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users_roles" EntitySet="users_roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sani_usermanagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="module">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parent_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="slug" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <Property Name="sortid" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="roles_modules_permissions" Relationship="Self.fk_module" FromRole="modules" ToRole="roles_modules_permissions" />
+        </EntityType>
+        <EntityType Name="right">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="roles_modules_permissions_rights" Relationship="Self.fk_rights" FromRole="rights" ToRole="roles_modules_permissions_rights" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="roles_modules_permissions" Relationship="Self.fk_role" FromRole="roles" ToRole="roles_modules_permissions" />
+          <NavigationProperty Name="users_roles" Relationship="Self.fk_user_role" FromRole="roles" ToRole="users_roles" />
+        </EntityType>
+        <EntityType Name="roles_modules_permissions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="module_id" Type="Int32" Nullable="false" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="module" Relationship="Self.fk_module" FromRole="roles_modules_permissions" ToRole="modules" />
+          <NavigationProperty Name="role" Relationship="Self.fk_role" FromRole="roles_modules_permissions" ToRole="roles" />
+          <NavigationProperty Name="roles_modules_permissions_rights" Relationship="Self.fk_permissions" FromRole="roles_modules_permissions" ToRole="roles_modules_permissions_rights" />
+        </EntityType>
+        <EntityType Name="roles_modules_permissions_rights">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roles_modules_permissions_id" Type="Int32" Nullable="false" />
+          <Property Name="rights_id" Type="Int32" Nullable="false" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="right" Relationship="Self.fk_rights" FromRole="roles_modules_permissions_rights" ToRole="rights" />
+          <NavigationProperty Name="roles_modules_permissions" Relationship="Self.fk_permissions" FromRole="roles_modules_permissions_rights" ToRole="roles_modules_permissions" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="picture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="gender_id" Type="Int32" />
+          <Property Name="education_id" Type="Int32" />
+          <Property Name="interests" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="aboutme" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="users_roles" Relationship="Self.fk_user" FromRole="users" ToRole="users_roles" />
+        </EntityType>
+        <EntityType Name="users_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="role" Relationship="Self.fk_user_role" FromRole="users_roles" ToRole="roles" />
+          <NavigationProperty Name="user" Relationship="Self.fk_user" FromRole="users_roles" ToRole="users" />
+        </EntityType>
+        <Association Name="fk_module">
+          <End Role="modules" Type="Self.module" Multiplicity="1" />
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rights">
+          <End Role="rights" Type="Self.right" Multiplicity="1" />
+          <End Role="roles_modules_permissions_rights" Type="Self.roles_modules_permissions_rights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rights">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions_rights">
+              <PropertyRef Name="rights_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_role">
+          <End Role="roles" Type="Self.role" Multiplicity="1" />
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user_role">
+          <End Role="roles" Type="Self.role" Multiplicity="1" />
+          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_roles">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_permissions">
+          <End Role="roles_modules_permissions" Type="Self.roles_modules_permissions" Multiplicity="1" />
+          <End Role="roles_modules_permissions_rights" Type="Self.roles_modules_permissions_rights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles_modules_permissions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="roles_modules_permissions_rights">
+              <PropertyRef Name="roles_modules_permissions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user">
+          <End Role="users" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_roles">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="modules" EntityType="Self.module" />
+          <EntitySet Name="rights" EntityType="Self.right" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="roles_modules_permissions" EntityType="Self.roles_modules_permissions" />
+          <EntitySet Name="roles_modules_permissions_rights" EntityType="Self.roles_modules_permissions_rights" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="users_roles" EntityType="Self.users_roles" />
+          <AssociationSet Name="fk_module" Association="Self.fk_module">
+            <End Role="modules" EntitySet="modules" />
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rights" Association="Self.fk_rights">
+            <End Role="rights" EntitySet="rights" />
+            <End Role="roles_modules_permissions_rights" EntitySet="roles_modules_permissions_rights" />
+          </AssociationSet>
+          <AssociationSet Name="fk_role" Association="Self.fk_role">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user_role" Association="Self.fk_user_role">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users_roles" EntitySet="users_roles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_permissions" Association="Self.fk_permissions">
+            <End Role="roles_modules_permissions" EntitySet="roles_modules_permissions" />
+            <End Role="roles_modules_permissions_rights" EntitySet="roles_modules_permissions_rights" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user" Association="Self.fk_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="users_roles" EntitySet="users_roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="sani_usermanagementModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="modules">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.module">
+              <MappingFragment StoreEntitySet="modules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="slug" ColumnName="slug" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+                <ScalarProperty Name="sortid" ColumnName="sortid" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rights">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.right">
+              <MappingFragment StoreEntitySet="rights">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.role">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles_modules_permissions">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.roles_modules_permissions">
+              <MappingFragment StoreEntitySet="roles_modules_permissions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles_modules_permissions_rights">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.roles_modules_permissions_rights">
+              <MappingFragment StoreEntitySet="roles_modules_permissions_rights">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="roles_modules_permissions_id" ColumnName="roles_modules_permissions_id" />
+                <ScalarProperty Name="rights_id" ColumnName="rights_id" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+                <ScalarProperty Name="education_id" ColumnName="education_id" />
+                <ScalarProperty Name="interests" ColumnName="interests" />
+                <ScalarProperty Name="aboutme" ColumnName="aboutme" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users_roles">
+            <EntityTypeMapping TypeName="sani_usermanagementModel.users_roles">
+              <MappingFragment StoreEntitySet="users_roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

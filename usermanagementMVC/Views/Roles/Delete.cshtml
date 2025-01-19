@@ -1,0 +1,12 @@
+﻿@model usermanagementMVC.Models.role
+@{
+    ViewBag.Title = "Delete Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Delete Role</h2>
+<h4>Are you sure you want to delete the role "<strong>@Model.name</strong>"?</h4>
+<form method="post" action="@Url.Action("Delete", "Roles", new { id = Model.id })">
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a href="@Url.Action("Index", "Roles")" class="btn btn-secondary">Cancel</a>
+</form>

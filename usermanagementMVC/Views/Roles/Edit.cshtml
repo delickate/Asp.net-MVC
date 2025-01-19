@@ -1,0 +1,41 @@
+﻿@model usermanagementMVC.Models.RoleViewModel
+@{
+    ViewBag.Title = "Edit Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Edit Role</h2>
+@using (Html.BeginForm("Edit", "Roles", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label>Role Name</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+
+    <div>
+        <label>Modules and Rights</label>
+        @foreach (var module in Model.Modules)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => module.IsSelected)
+                    @module.Name
+                </label>
+                <div style="margin-left: 20px;">
+                    @foreach (var right in module.Rights)
+                    {
+                        <label>
+                            @Html.CheckBoxFor(m => right.IsSelected)
+                            @right.RightName
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+}

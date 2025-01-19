@@ -1,0 +1,25 @@
+﻿@model usermanagementMVC.Models.LoginModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <label>Username</label>
+        @Html.TextBoxFor(m => m.Email)
+    </div>
+    <div>
+        <label>Password</label>
+        @Html.PasswordFor(m => m.Password)
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+    if (ViewBag.ErrorMessage != null)
+    {
+        <p style="color:red;">@ViewBag.ErrorMessage</p>
+    }
+}

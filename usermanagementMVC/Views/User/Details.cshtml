@@ -1,0 +1,37 @@
+﻿@model usermanagementMVC.Models.user
+@{
+    ViewBag.Title = "User Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>User Details</h2>
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.name</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.email</dd>
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.phone</dd>
+            <dt class="col-sm-3">Profile Picture</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.picture))
+                {
+                    <img src="~/Uploads/@Model.picture" alt="Profile Picture" style="width:100px; height:100px;" />
+                }
+                else
+                {
+                    <span>No Picture Available</span>
+                }
+            </dd>
+            <dt class="col-sm-3">Role</dt>
+            <dd class="col-sm-9">@ViewBag.RoleName</dd>
+            <dt class="col-sm-3">Is Default User</dt>
+            <dd class="col-sm-9">@Model.is_default ? "Yes" : "No"</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a href="@Url.Action("Index", "User")" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

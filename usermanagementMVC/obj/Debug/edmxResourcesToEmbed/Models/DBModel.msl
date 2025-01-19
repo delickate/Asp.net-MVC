@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="sani_usermanagementModelStoreContainer" CdmEntityContainer="DBEntities">
+    <EntitySetMapping Name="modules">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.module">
+        <MappingFragment StoreEntitySet="modules">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="slug" ColumnName="slug" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="is_default" ColumnName="is_default" />
+          <ScalarProperty Name="sortid" ColumnName="sortid" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rights">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.right">
+        <MappingFragment StoreEntitySet="rights">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="roles">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.role">
+        <MappingFragment StoreEntitySet="roles">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="is_default" ColumnName="is_default" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="roles_modules_permissions">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.roles_modules_permissions">
+        <MappingFragment StoreEntitySet="roles_modules_permissions">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="is_default" ColumnName="is_default" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="roles_modules_permissions_rights">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.roles_modules_permissions_rights">
+        <MappingFragment StoreEntitySet="roles_modules_permissions_rights">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="roles_modules_permissions_id" ColumnName="roles_modules_permissions_id" />
+          <ScalarProperty Name="rights_id" ColumnName="rights_id" />
+          <ScalarProperty Name="is_default" ColumnName="is_default" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
+          <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+          <ScalarProperty Name="education_id" ColumnName="education_id" />
+          <ScalarProperty Name="interests" ColumnName="interests" />
+          <ScalarProperty Name="aboutme" ColumnName="aboutme" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="is_default" ColumnName="is_default" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users_roles">
+      <EntityTypeMapping TypeName="sani_usermanagementModel.users_roles">
+        <MappingFragment StoreEntitySet="users_roles">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
